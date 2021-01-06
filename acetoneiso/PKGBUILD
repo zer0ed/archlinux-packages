@@ -1,0 +1,43 @@
+# Contributor: Wes Brewer <brewerw@gmail.com>
+pkgname=acetoneiso
+pkgver=6.7
+pkgrel=1
+pkgdesc="An all in one ISO tool for KDE (BIN,MDF,NRG,CCD/IMG,ISO..)"
+arch=(i686)
+url="http://www.acetoneteam.org/"
+license=('GPL')
+depends=('glibc' 'kdewebdev')
+install=$pkgname.install
+source=(http://www.acetoneteam.org/Archivia/AcetoneISO-$pkgver.tar.gz  AcetoneISO.desktop)
+md5sums=('1429b71b654471ded05c2a6ded9056e3' 'e9e916d23e1f45c686f614f1950eff6e')
+
+build() {
+  cd $startdir/src/AcetoneISO-$pkgver/AcetoneISO-$pkgver
+
+  # Copy binaries and scripts
+  mkdir -p $startdir/pkg/opt/acetoneiso/bin
+  cp -rf AcetoneISO.kmdr     $startdir/pkg/opt/acetoneiso/
+  cp -rf playiso-unmount.sh  $startdir/pkg/opt/acetoneiso
+  cp -rf turbo.sh	$startdir/pkg/opt/acetoneiso
+  cp -rf cdi2iso	$startdir/pkg/opt/acetoneiso/bin
+  cp -rf mdf2iso	$startdir/pkg/opt/acetoneiso/bin
+  cp -rf nrg2iso	$startdir/pkg/opt/acetoneiso/bin
+  cp -rf xbiso		$startdir/pkg/opt/acetoneiso/bin
+  cp -rf b5i2iso	$startdir/pkg/opt/acetoneiso/bin
+  cp -rf pdi2iso	$startdir/pkg/opt/acetoneiso/bin
+  cp -rf poweriso	$startdir/pkg/opt/acetoneiso/bin
+  mkdir -p $startdir/pkg/usr/bin
+  cp -rf acetoneiso	$startdir/pkg/usr/bin
+
+  # Copy pixmap icons
+  mkdir -p $startdir/pkg/usr/share/pixmaps
+  cp -rf acetone.png	$startdir/pkg/usr/share/pixmaps/
+  cp -rf aiso.png	$startdir/pkg/usr/share/pixmaps/
+
+  # Copy KDE links
+  mkdir -p $startdir/pkg/usr/share/applications/
+  cp -rf $startdir/src/AcetoneISO.desktop $startdir/pkg/usr/share/applications
+  mkdir -p $startdir/pkg/opt/kde/share/apps/konqueror/servicemenus
+  cp -rf acetoneiso-mount.desktop   $startdir/pkg/opt/kde/share/apps/konqueror/servicemenus
+  cp -rf acetoneiso-umount.desktop  $startdir/pkg/opt/kde/share/apps/konqueror/servicemenus
+}
