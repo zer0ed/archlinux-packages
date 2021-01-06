@@ -2,7 +2,7 @@
 
 pkgname=cdcat
 pkgver=1.01b
-pkgrel=1
+pkgrel=2
 pkgdesc="CD & Disk catalog software."
 url="http://cdcat.sourceforge.net/"
 depends=(pcre qt)
@@ -22,8 +22,20 @@ build() {
   qmake cdcat.pro && make || return 1
   # Force other install directory
   make INSTALL_ROOT=$startdir/pkg install
+
   # drop local directory out of /usr/local/ layout
   cd $startdir/pkg/usr/local
   mv * ../
   rm -r $startdir/pkg/usr/local
+
+  # setup KDE menu links, icons, and mimetypes
+  cd $startdir/src/CdCat-$pkgver/KDE
+  mkdir --parents $startdir/pkg/usr/share/mime/packages/
+  mkdir $startdir/pkg/usr/share/applications/
+  mkdir $startdir/pkg/usr/share/pixmaps/
+  cp x-hcf.xml  $startdir/pkg/usr/share/mime/packages/
+  cp ../cdcat.png $startdir/pkg/usr/share/pixmaps/
+  # fix icon path in kde menu link file (no path needed)
+  sed -e 's/\/usr\/local\/share\/cdcat\///' cdcat.desktop > cdcat.desktop.fixed
+  cp cdcat.desktop.fixed $startdir/pkg/usr/share/applications/cdcat.desktop
 } 
