@@ -1,15 +1,15 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=acetoneiso2
 pkgver=1.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="An all in one ISO tool for KDE (BIN,MDF,NRG,CCD/IMG,ISO..)"
 arch=('i686')
 url="http://www.acetoneteam.org/"
 license=('GPL3')
-depends=('kdebase' 'qt4' 'cdrdao' 'cdrkit' 'gnupg' 'fuseiso')
+depends=('kdebase' 'qt>=4' 'cdrdao' 'cdrkit' 'gnupg' 'fuseiso')
 conflicts=('acetoneiso')
 install=$pkgname.install
-source=(http://dl.sourceforge.net/acetoneiso2/AcetoneISO2-$pkgver.tgz
+source=(http://downloads.sourceforge.net/acetoneiso2/AcetoneISO2-$pkgver.tgz
         http://www.acetoneteam.org/Archivia/poweriso-1.1.tar.gz)
 md5sums=('28e0d172759aa0900cb7511aa7714038'
          'd19adcb427ce391f1b39e789037c2e0a')
@@ -19,18 +19,18 @@ build() {
 
   # Copy binaries, scripts, and others..
   install -d $startdir/pkg/opt/acetoneiso2/bin/sm
-  install -m 755 bin/* $startdir/pkg/opt/acetoneiso2/bin
-  install -m 755 bin/sm/* $startdir/pkg/opt/acetoneiso2/bin/sm
-  install -m 755 $startdir/src/poweriso $startdir/pkg/opt/acetoneiso2/bin
-  install -m 644 about.wav $startdir/pkg/opt/acetoneiso2
-  install -D -m 755 $startdir/src/usr/bin/acetoneiso2 $startdir/pkg/usr/bin/acetoneiso2
+  install -m755 bin/* $startdir/pkg/opt/acetoneiso2/bin
+  install -m755 bin/sm/* $startdir/pkg/opt/acetoneiso2/bin/sm
+  install -m755 $startdir/src/poweriso $startdir/pkg/opt/acetoneiso2/bin
+  install -m644 about.wav $startdir/pkg/opt/acetoneiso2
+  install -Dm755 $startdir/src/usr/bin/acetoneiso2 $startdir/pkg/usr/bin/acetoneiso2
 
   # Copy desktop icon, desktop link, and konqueror service menus
   cd $startdir/src/usr/share/
-  install -D -m 644 pixmaps/aiso2.png $startdir/pkg/usr/share/pixmaps/aiso2.png
-  install -D -m 644 applications/AcetoneISO.desktop \
+  install -Dm644 pixmaps/aiso2.png $startdir/pkg/usr/share/pixmaps/aiso2.png
+  install -Dm644 applications/AcetoneISO.desktop \
                     $startdir/pkg/usr/share/applications/AcetoneISO.desktop
   install -d $startdir/pkg/opt/kde/share/apps/konqueror/servicemenus
-  install -m 644 apps/konqueror/servicemenus/acetoneiso2-*.desktop \
+  install -m644 apps/konqueror/servicemenus/acetoneiso2-*.desktop \
                  $startdir/pkg/opt/kde/share/apps/konqueror/servicemenus
 }
