@@ -7,8 +7,8 @@ cat << EOF
   -->
   -->  Optional Packages
   -->
-  -->  ISO compress/decompress support:  p7zip
-  -->  DVD image creation/burning support:  dvd+rw-tools
+  -->  ISO compress/decompress support: p7zip
+  -->  DVD image creation:              dvd+rw-tools
 
 EOF
 }
