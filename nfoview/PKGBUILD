@@ -1,18 +1,18 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=nfoview
-pkgver=1.1.2
-pkgrel=2
+pkgver=1.2
+pkgrel=1
 pkgdesc="A fast GTK based .NFO viewer with ASCII cp437 codepage support"
 arch=('i686' 'x86_64')
 url="http://home.gna.org/nfoview/"
 license=('GPL')
-depends=('python' 'pygtk' 'shared-mime-info' 'terminus-font')
+depends=('python' 'pygtk' 'shared-mime-info>=0.30' 'terminus-font')
 makedepends=('gettext' 'intltool')
 conflicts=('nfoview-svn')
 install=nfoview.install
-source=(http://download.gna.org/nfoview/1.1/$pkgname-$pkgver.tar.gz
+source=(http://download.gna.org/nfoview/$pkgver/$pkgname-$pkgver.tar.gz
         x-nfo.desktop)
-md5sums=('c4ff6bba263ea451364aded6edc5e080'
+md5sums=('e5090cbe23f2eea0320749f9967c5e68'
          '29d0ad75aeecfaf21965c01173d23e48')
 
 build() {
