@@ -1,0 +1,42 @@
+# Contributor: Wes Brewer <brewerw@gmail.com>
+pkgname=nfoview-svn
+pkgver=5
+pkgrel=1
+pkgdesc="A fast GTK based .NFO viewer with ASCII cp437 codepage support"
+arch=('i686')
+url="http://home.gna.org/nfoview/"
+license=('GPL3')
+makedepends=('subversion')
+depends=('python' 'pygtk' 'ttf-ms-fonts')
+conflicts=('nfoview')
+replaces=('nfoview')
+install=$pkgname.install
+source=(x-nfo.desktop)
+md5sums=('29d0ad75aeecfaf21965c01173d23e48')
+
+_svntrunk=svn://svn.gna.org/svn/nfoview/trunk
+_svnmod=nfoview
+
+build() {
+  cd "$startdir/src"
+
+   if [ -d $_svnmod/.svn ]; then
+     (cd $_svnmod && svn up -r $pkgver)
+   else
+     svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+   fi
+
+   msg "SVN checkout done or server timeout"
+   msg "Starting make..."
+
+  cd $_svnmod
+
+  # Copy binary
+  install -D -m 755 nfoview $startdir/pkg/usr/bin/nfoview
+
+  # Copy desktop links, mimetypes, and manual
+  install -D -m 644 nfoview.desktop $startdir/pkg/usr/share/applications/nfoview.desktop
+  install -D -m 644 nfoview.xml $startdir/pkg/usr/share/mime/packages/nfoview.xml
+  install -D -m 644 ../x-nfo.desktop $startdir/pkg/opt/kde/share/mimelnk/text/x-nfo.desktop
+  install -D -m 644 nfoview.1 $startdir/pkg/usr/man/man1/nfoview.1
+}
