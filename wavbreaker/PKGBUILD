@@ -1,14 +1,14 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=wavbreaker
-pkgver=0.9
+pkgver=0.10
 pkgrel=1
 pkgdesc="A set of GTK & CLI tools for splitting and merging wav files"
-arch=(i686)
+arch=('i686')
 url="http://wavbreaker.sourceforge.net/"
 license=('GPL')
 depends=('gtk2' 'libxml2' 'alsa-lib')
 source=(http://downloads.sourceforge.net/wavbreaker/$pkgname-$pkgver.tar.gz)
-md5sums=('ac201f2971030814225026efc98e215d')
+md5sums=('a77ba8c4c42a1e7c5aef6d519058bacf')
 
 build() {
   cd $startdir/src/$pkgname-$pkgver
