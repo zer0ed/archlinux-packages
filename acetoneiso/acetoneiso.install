@@ -1,14 +1,16 @@
 post_install() {
-  /bin/cat << EOF
+cat << EOF
 
- +===============================================+
- | Recommended Packages:                         |#
- |-----------------------------------------------|#
- |  - Install p7zip for ISO compression options  |#
- +===============================================+#
-   ################################################
+  -->  acetoneiso message:
+  -->
+  -->  If you want the ISO compression options
+  -->  install the p7zip package.
 
 EOF
+}
+
+post_upgrade() {
+    post_install $*
 }
 
 op=$1
