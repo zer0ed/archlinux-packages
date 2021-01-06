@@ -1,34 +1,36 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=cdcat
 pkgver=1.01b
-pkgrel=3
-pkgdesc="CD & Disk catalog software."
-arch=(i686)
+pkgrel=4
+pkgdesc="CD/DVD/Media catalog software (QT based)"
+arch=('i686')
 url="http://cdcat.sourceforge.net/"
 license=('GPL')
-depends=('pcre' 'qt')
-source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2 cdcat.patch \
+depends=('pcre' 'qt3')
+source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2
+        cdcat.patch
         cdcat.desktop)
-md5sums=('59b321ff3848b34cb6862fd2a408cb44' '25e6202887a45b1f977d647bf3f05154'\
+md5sums=('59b321ff3848b34cb6862fd2a408cb44'
+         '25e6202887a45b1f977d647bf3f05154'
          '1ad7d21d77dd4f9d0b56216fe54f61ce')
 
 build() {
   cd $startdir/src/CdCat-$pkgver/src
-  # apply patches (GGC 4.1, mp3 off-by-one)
-  patch -p0 < ../../cdcat.patch
-  qmake cdcat.pro && make || return 1
-  make INSTALL_ROOT=$startdir/pkg install
 
-  # move /usr/local/bin to /usr/bin
-  cp -rf $startdir/pkg/usr/local/bin $startdir/pkg/usr/bin
-  rm -r $startdir/pkg/usr/local
+  # apply patches (GCC 4.1+ compiler fix and mp3 off-by-one segfault fix)
+  patch -Np0 < ../../cdcat.patch || return 1
+  # fix path from /usr/local to /usr
+  sed -i 's|/usr/local|/usr|' cdcat.pro
+  # set qt3 profile before using qmake
+  source /etc/profile.d/qt.sh
 
-  # menu link, pixmap icon, and mimetype
-  cd $startdir/src/CdCat-$pkgver/KDE
-  mkdir -p $startdir/pkg/usr/share/mime/packages/
-  cp x-hcf.xml $startdir/pkg/usr/share/mime/packages/
-  mkdir -p $startdir/pkg/usr/share/pixmaps/
-  cp ../cdcat.png $startdir/pkg/usr/share/pixmaps/
-  mkdir -p $startdir/pkg/usr/share/applications/
-  cp ../../cdcat.desktop $startdir/pkg/usr/share/applications/
+  ${QTDIR}/bin/qmake cdcat.pro || return 1
+  make || return 1
+  make INSTALL_ROOT=$startdir/pkg install || return 1
+
+  # install menu link, pixmap icon, and mimetype
+  cd $startdir/src/CdCat-$pkgver
+  install -Dm644 ../cdcat.desktop $startdir/pkg/usr/share/applications/cdcat.desktop
+  install -Dm644 cdcat.png $startdir/pkg/usr/share/pixmaps/cdcat.png
+  install -Dm644 KDE/x-hcf.xml $startdir/pkg/usr/share/mime/packages/x-hcf.xml
 }
