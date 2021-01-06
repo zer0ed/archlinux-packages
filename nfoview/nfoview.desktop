@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=NFOview
-Comment=View NFO files
-MimeType=text/x-extension-nfo;
-Exec=/usr/bin/nfoview
-Type=Application
-Terminal=false
-NoDisplay=true

@@ -2,6 +2,6 @@
 Comment=NFO document
 DefaultApp=nfoview
 Type=MimeType
-MimeType=text/x-extension-nfo
+MimeType=text/x-nfo
 Patterns=*.nfo;
 X-KDE-AutoEmbed=false

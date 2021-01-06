@@ -1,38 +1,25 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=nfoview
-pkgver=0.2
+pkgver=1.1
 pkgrel=1
 pkgdesc="A fast GTK based .NFO viewer with ASCII cp437 codepage support"
 arch=('i686')
-url="http://users.tkk.fi/~otsaloma/scripts/nfoview"
+url="http://home.gna.org/nfoview/"
 license=('GPL')
-depends=('python' 'pygtk')
-install=luconP-font.install
-source=(http://users.tkk.fi/~otsaloma/scripts/$pkgname
-        http://home.online.no/~aageli/luconP.ttf
-        nfoview.desktop  x-extension-nfo.desktop  x-extension-nfo.xml)
-md5sums=('2eb50d65269d6335e15e5b65b314fb8e'
-         '68ba3675f33899a3b11f7ba18e0644ce'
-         '860726f54ebcec9197fea43aee9ad585'
-         '357a164afbbfd05a9185adebeb529d1b'
-         'c88692232ed698b413ef91cbcbd00cce')
+depends=('python' 'pygtk' 'shared-mime-info' 'terminus-font')
+conflicts=('nfoview-svn')
+install=nfoview.install
+source=(http://download.gna.org/nfoview/$pkgver/$pkgname-$pkgver.tar.gz
+        x-nfo.desktop)
+md5sums=('22b767362a6171c0279def3cce31b67f'
+         '29d0ad75aeecfaf21965c01173d23e48')
 
 build() {
-  cd "$startdir/src"
+  cd "$startdir/src/$pkgname-$pkgver"
 
-  # Copy binary
-  install -d $startdir/pkg/usr/bin
-  install -m 755 nfoview $startdir/pkg/usr/bin
+  # run install script
+  ./setup.py install --root $startdir/pkg || return 1
 
-  # Copy needed font (Lucida ConsoleP)
-  install -d $startdir/pkg/usr/share/fonts/TTF
-  install -m 644 luconP.ttf $startdir/pkg/usr/share/fonts/TTF
-
-  # Copy desktop links, and mimetypes
-  install -d $startdir/pkg/usr/share/applications/
-  install -m 644 nfoview.desktop $startdir/pkg/usr/share/applications/
-  install -d $startdir/pkg/usr/share/mime/packages/
-  install -m 644 x-extension-nfo.xml $startdir/pkg/usr/share/mime/packages/
-  install -d $startdir/pkg/opt/kde/share/mimelnk/application/
-  install -m 644 x-extension-nfo.desktop $startdir/pkg/opt/kde/share/mimelnk/application/
+  # install KDE mimetype
+  install -Dm644 ../x-nfo.desktop $startdir/pkg/opt/kde/share/mimelnk/text/x-nfo.desktop
 }
