@@ -1,0 +1,29 @@
+# Contributor: Wes Brewer <brewerw@gmail.com>
+
+pkgname=cdcat
+pkgver=1.01b
+pkgrel=1
+pkgdesc="CD & Disk catalog software."
+url="http://cdcat.sourceforge.net/"
+depends=(pcre qt)
+makedepends=()
+conflicts=()
+replaces=()
+backup=()
+install=
+source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2 cdcat-gcc4.patch)
+md5sums=('59b321ff3848b34cb6862fd2a408cb44' '7ec1c2731e8125535d920b36d5919cf8')
+
+build() {
+  cd $startdir/src/CdCat-$pkgver/src
+  # Apply gcc4 patch
+  patch -p0 < ../../cdcat-gcc4.patch
+  # Compile
+  qmake cdcat.pro && make || return 1
+  # Force other install directory
+  make INSTALL_ROOT=$startdir/pkg install
+  # drop local directory out of /usr/local/ layout
+  cd $startdir/pkg/usr/local
+  mv * ../
+  rm -r $startdir/pkg/usr/local
+} 
