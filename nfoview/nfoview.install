@@ -1,6 +1,8 @@
 post_install() {
   echo "updating mimetype database... "
   update-mime-database /usr/share/mime
+  echo "updating desktop database... "
+  update-desktop-database /usr/share/applications/
 }
 
 post_upgrade() {
