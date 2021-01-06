@@ -1,0 +1,62 @@
+--- notifyicon.orig	2006-11-23 22:54:19.000000000 -0500
++++ notifyicon.py	2007-02-21 23:14:55.000000000 -0500
+@@ -45,8 +45,10 @@
+     if not notification:
+         log_entry("System is not able to send notifications.", True, True)
+ 
+-    tray = gtk.status_icon_new_from_stock(gtk.STOCK_DIALOG_INFO)
+-    tray.set_visible(False)
++    # trayhack
++    tray = gtk.status_icon_new_from_file('/usr/share/pixmaps/alunn-pacman-24.png')
++    #tray = gtk.status_icon_new_from_file('/usr/share/pixmaps/alunn-arch.png')
++    tray.set_visible(True)
+ 
+     menu_update = gtk.ImageMenuItem("Update packages")
+     menu_news = gtk.ImageMenuItem("Read news")
+@@ -76,7 +78,7 @@
+         aboutdialog = gtk.AboutDialog()
+         icon_pacman = gtk.image_new_from_icon_name('info', gtk.ICON_SIZE_SMALL_TOOLBAR)
+         aboutdialog.set_name("Alunn")
+-        aboutdialog.set_version("0.5.2")
++        aboutdialog.set_version("0.5.2 + trayhack")
+         aboutdialog.set_copyright("Copyright © 2006, Mathias Nedrebø")
+         aboutdialog.set_website("http://www.nedrebo.org/kode/alunn/")
+         aboutdialog.set_logo(gtk.gdk.pixbuf_new_from_file(self.pacman_icon_file));
+@@ -100,15 +102,17 @@
+ Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ Boston, MA  02110-1301, USA.
+ """)
+-        aboutdialog.set_authors(["Mathias Nedrebø"])
++        aboutdialog.set_authors(["Mathias Nedrebø", "Wes Brewer (trayhack)"])
+         aboutdialog.connect ("response", lambda d, r: d.destroy())
+         aboutdialog.show()
+ 
+     def show_icon(self, widget=None):
++        self.tray.set_blinking(True)
+         self.tray.set_visible(True)
+ 
+     def hide_icon(self, widget=None):
+-        self.tray.set_visible(False)
++        self.tray.set_blinking(False)
++        self.tray.set_visible(True)
+ 
+     def toggle_icon(self, widget=None):
+         self.set_tooltip()
+@@ -128,7 +132,7 @@
+         elif self.status['news']:
+             current_tip = self.tooltip['news']
+         else:
+-            current_tip = 'This icon shuld not be here or this tooltip should at least say something else :('
++            current_tip = 'Alunn: no new updates or unread news'
+         self.tray.set_tooltip(current_tip)
+ 
+     def show_notify_icon(self, title, message, type, urls=None):
+@@ -183,7 +187,7 @@
+         self.menu_news.set_image(icon_news)
+         menu.append(self.menu_news)
+         
+-        menu_hide = gtk.ImageMenuItem("Hide icon")
++        menu_hide = gtk.ImageMenuItem("Stop blinking")
+         menu_hide.connect("activate", self.hide_icon)
+         icon_hide = gtk.image_new_from_icon_name(gtk.STOCK_REMOVE, gtk.ICON_SIZE_SMALL_TOOLBAR)
+         menu_hide.set_image(icon_hide)

@@ -1,0 +1,23 @@
+#PKGBUILD
+# Contributor: Wes Brewer <brewerw@gmail.com>
+
+pkgname=alunn-trayhack
+pkgver=0.5.2
+pkgrel=1
+pkgdesc="Systemtray notification for Arch Linux news and Pacman updates w/ systray hack"
+url="http://nedrebo.org/kode/alunn/"
+license="gpl"
+depends=('pygtk' 'dbus-python')
+conflicts=('alunn')
+install=alunn.install
+source=("http://www.nedrebo.org/pages/kode/alunn/alunn-${pkgver}.tar.gz" "trayhack.patch")
+md5sums=('6fd385d3187725a74684139463efff6f' 'fae9dcc262dd5e265dd71d9b1e86ac0f')
+
+build() {
+  # Apply trayhack patch to source
+  cd $startdir/src/alunn-${pkgver}/alunn
+  patch -p0 < ../../trayhack.patch
+
+  cd $startdir/src/alunn-${pkgver}
+  ./install.sh --prefix=$startdir/pkg > /dev/null
+}
