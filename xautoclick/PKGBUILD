@@ -1,0 +1,28 @@
+# Contributor: Wes Brewer <brewerw@gmail.com>
+pkgname=xautoclick
+pkgver=0.20
+pkgrel=1
+pkgdesc="Automates repetitive mouse clicking to reduce RSI."
+arch=('i686')
+url="http://xautoclick.sourceforge.net"
+license=('GPL')
+depends=('libxtst')
+optdepends=('gtk: for gtk based gui'
+            'gtk2: for gtk2 based gui'
+            'qt3: for qt3 based gui')
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.tar.gz)
+md5sums=('c7f48bde15fd391d6d650c0d43bd30ea')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver-src"
+
+  ./configure --prefix=$pkgdir/usr
+  make || return 1
+  make install || return 1
+
+  # move manpage to proper directory
+  install -d ${pkgdir}/usr/share || return 1
+  mv ${pkgdir}/usr/man ${pkgdir}/usr/share || return 1
+}
+
+# vim:set ts=2 sw=2 et:
