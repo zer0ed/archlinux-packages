@@ -1,7 +1,7 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=cdcat
 pkgver=1.01b
-pkgrel=4
+pkgrel=5
 pkgdesc="CD/DVD/Media catalog software (QT based)"
 arch=('i686')
 url="http://cdcat.sourceforge.net/"
@@ -22,7 +22,8 @@ build() {
   # fix path from /usr/local to /usr
   sed -i 's|/usr/local|/usr|' cdcat.pro
   # set qt3 profile before using qmake
-  source /etc/profile.d/qt.sh
+  source /etc/profile.d/qt3.sh
+  export QMAKESPEC=/opt/qt/mkspecs/linux-g++
 
   ${QTDIR}/bin/qmake cdcat.pro || return 1
   make || return 1
@@ -34,3 +35,5 @@ build() {
   install -Dm644 cdcat.png $startdir/pkg/usr/share/pixmaps/cdcat.png
   install -Dm644 KDE/x-hcf.xml $startdir/pkg/usr/share/mime/packages/x-hcf.xml
 }
+
+# vim:set ts=2 sw=2 et:
