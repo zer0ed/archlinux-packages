@@ -1,10 +1,11 @@
 post_install() {
 cat << EOF
 
-  -->  acetoneiso message:
+  -->  acetoneiso messages:
   -->
-  -->  If you want the ISO compression options
-  -->  install the p7zip package.
+  -->  Optional Packages
+  -->
+  -->  ISO compress/decompress support:  p7zip
 
 EOF
 }

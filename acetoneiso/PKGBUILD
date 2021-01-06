@@ -1,12 +1,13 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=acetoneiso
 pkgver=6.7
-pkgrel=2
+pkgrel=3
 pkgdesc="An all in one ISO tool for KDE (BIN,MDF,NRG,CCD/IMG,ISO..)"
-arch=(i686)
+arch=('i686' 'x86_64')
 url="http://www.acetoneteam.org/"
 license=('GPL')
-depends=('glibc' 'kdewebdev')
+depends=('glibc' 'kdewebdev' 'gnupg')
+conflicts=('acetoneiso2')
 install=$pkgname.install
 source=(http://www.acetoneteam.org/Archivia/AcetoneISO-$pkgver.tar.gz
         http://www.acetoneteam.org/AcetoneISO.desktop)
