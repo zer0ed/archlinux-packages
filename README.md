@@ -8,3 +8,7 @@ The commit dates will reflect when they were pushed to github, not when I origin
 created them as I wasn't using any version control system at the time.
 
 I have done a commit for each version change I have available for completion sake.
+
+More info on availible packages:
+
+![screenshot](.screenshot/screenshot.png)
