@@ -1,0 +1,22 @@
+post_install() {
+cat << EOF
+
+  -->  acetoneiso2 messages:
+  -->
+  -->  Please add fuse to your MODULES array in /etc/rc.conf
+  -->
+  -->  Optional Packages
+  -->
+  -->  ISO compress/decompress support:  p7zip
+  -->  DVD image creation/burning support:  dvd+rw-tools
+
+EOF
+}
+
+post_upgrade() {
+    post_install $*
+}
+
+op=$1
+shift
+$op $*
