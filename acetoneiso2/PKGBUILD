@@ -1,6 +1,6 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=acetoneiso2
-pkgver=2.0.0
+pkgver=2.0.1
 pkgrel=1
 pkgdesc="An all in one ISO tool (bin mdf nrg img daa dmg cdi b5i bwi pdi iso)"
 arch=('i686')
@@ -10,7 +10,7 @@ depends=('kdebase' 'qt>=4' 'fuseiso' 'cdrdao' 'cdrkit' 'gnupg2' 'pinentry')
 conflicts=('acetoneiso')
 install=$pkgname.install
 source=(http://downloads.sourceforge.net/$pkgname/${pkgname}_${pkgver}-source.tar.gz)
-md5sums=('6014833fbbd40ed6eabdf3286468f918')
+md5sums=('ab7e77fdd5ca7f2407166338982ec819')
 
 build() {
   cd $startdir/src/acetoneiso2/src
