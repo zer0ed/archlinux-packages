@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Hyper's CdCatalog (cdcat)
+GenericName=CD/DVD Catalog
+Comment=CD/DVD Catalog Tool
+Type=Application
+Exec=cdcat
+Icon=/usr/share/pixmaps/cdcat.png
+Categories=;DiscBurning;AudioVideo;Video;Application
+StartupNotify=true
+Terminal=false

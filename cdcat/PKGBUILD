@@ -1,41 +1,34 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
-
 pkgname=cdcat
 pkgver=1.01b
-pkgrel=2
+pkgrel=3
 pkgdesc="CD & Disk catalog software."
+arch=(i686)
 url="http://cdcat.sourceforge.net/"
-depends=(pcre qt)
-makedepends=()
-conflicts=()
-replaces=()
-backup=()
-install=
-source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2 cdcat-gcc4.patch)
-md5sums=('59b321ff3848b34cb6862fd2a408cb44' '7ec1c2731e8125535d920b36d5919cf8')
+license=('GPL')
+depends=('pcre' 'qt')
+source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2 cdcat.patch \
+        cdcat.desktop)
+md5sums=('59b321ff3848b34cb6862fd2a408cb44' '25e6202887a45b1f977d647bf3f05154'\
+         '1ad7d21d77dd4f9d0b56216fe54f61ce')
 
 build() {
   cd $startdir/src/CdCat-$pkgver/src
-  # Apply gcc4 patch
-  patch -p0 < ../../cdcat-gcc4.patch
-  # Compile
+  # apply patches (GGC 4.1, mp3 off-by-one)
+  patch -p0 < ../../cdcat.patch
   qmake cdcat.pro && make || return 1
-  # Force other install directory
   make INSTALL_ROOT=$startdir/pkg install
 
-  # drop local directory out of /usr/local/ layout
-  cd $startdir/pkg/usr/local
-  mv * ../
+  # move /usr/local/bin to /usr/bin
+  cp -rf $startdir/pkg/usr/local/bin $startdir/pkg/usr/bin
   rm -r $startdir/pkg/usr/local
 
-  # setup KDE menu links, icons, and mimetypes
+  # menu link, pixmap icon, and mimetype
   cd $startdir/src/CdCat-$pkgver/KDE
-  mkdir --parents $startdir/pkg/usr/share/mime/packages/
-  mkdir $startdir/pkg/usr/share/applications/
-  mkdir $startdir/pkg/usr/share/pixmaps/
-  cp x-hcf.xml  $startdir/pkg/usr/share/mime/packages/
+  mkdir -p $startdir/pkg/usr/share/mime/packages/
+  cp x-hcf.xml $startdir/pkg/usr/share/mime/packages/
+  mkdir -p $startdir/pkg/usr/share/pixmaps/
   cp ../cdcat.png $startdir/pkg/usr/share/pixmaps/
-  # fix icon path in kde menu link file (no path needed)
-  sed -e 's/\/usr\/local\/share\/cdcat\///' cdcat.desktop > cdcat.desktop.fixed
-  cp cdcat.desktop.fixed $startdir/pkg/usr/share/applications/cdcat.desktop
-} 
+  mkdir -p $startdir/pkg/usr/share/applications/
+  cp ../../cdcat.desktop $startdir/pkg/usr/share/applications/
+}
