@@ -1,0 +1,18 @@
+# Contributor: Wes Brewer <brewerw@gmail.com>
+pkgname=wavbreaker
+pkgver=0.7
+pkgrel=1
+pkgdesc="A set of tools for splitting and merging wav files"
+arch=(i686)
+url="http://huli.org/wavbreaker/"
+license=('GPL')
+depends=('gtk2' 'libxml2' 'alsa-lib')
+source=(http://huli.org/wavbreaker/$pkgname-$pkgver.tar.gz)
+md5sums=('6e5a776e124b8e02dd184b06bcce5c4a')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+}
