@@ -1,26 +1,31 @@
 # Contributor: Wes Brewer <brewerw@gmail.com>
 pkgname=cdcat
 pkgver=1.01b
-pkgrel=5
+pkgrel=6
 pkgdesc="CD/DVD/Media catalog software (QT based)"
-arch=('i686')
+arch=('i686' 'x86_64')
 url="http://cdcat.sourceforge.net/"
 license=('GPL')
 depends=('pcre' 'qt3')
 source=(http://cdcat.sourceforge.net/$pkgname-$pkgver.tar.bz2
-        cdcat.patch
+        gcc4_1.patch
+        mp3tag_parser.patch
         cdcat.desktop)
 md5sums=('59b321ff3848b34cb6862fd2a408cb44'
-         '25e6202887a45b1f977d647bf3f05154'
+         '5a4f73ca16513f4b902b61ce79fc0f14'
+         '933773c216e42b838cafa25993389aec'
          '1ad7d21d77dd4f9d0b56216fe54f61ce')
 
 build() {
-  cd $startdir/src/CdCat-$pkgver/src
+  cd $srcdir/CdCat-$pkgver/src
 
-  # apply patches (GCC 4.1+ compiler fix and mp3 off-by-one segfault fix)
-  patch -Np0 < ../../cdcat.patch || return 1
+  # GCC 4.1 patch
+  patch -Np2 -i "$srcdir/gcc4_1.patch" || return 1
+  # mp3tag parser patch
+  patch -Np2 -i "$srcdir/mp3tag_parser.patch" || return 1
   # fix path from /usr/local to /usr
   sed -i 's|/usr/local|/usr|' cdcat.pro
+  
   # set qt3 profile before using qmake
   source /etc/profile.d/qt3.sh
   export QMAKESPEC=/opt/qt/mkspecs/linux-g++
